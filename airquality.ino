@@ -1,8 +1,8 @@
-#include "DHT.h"
+#include "dht11.h"
 
 #define PIN A1
 
-DHT dht(3, DHT11);
+DHT11 dht11(2);
 
 void setup() {
   Serial.begin(115200);
@@ -10,7 +10,7 @@ void setup() {
   pinMode(PIN, INPUT);
   analogReference(INTERNAL);
 
-  dht.begin();
+  dht11.init();
 }
 
 void loop() {
@@ -19,9 +19,9 @@ void loop() {
   Serial.print("analog=");
   Serial.println(val, DEC);
 //#else
-
-  float t = dht.readTemperature();
-  float h = dht.readHumidity();
+  
+  int h, t;
+  dht11.read(&h, &t);
   
   Serial.print("T=");
   Serial.print(t);
@@ -30,5 +30,5 @@ void loop() {
   Serial.println(h);
 
 //#endif
-  delay(500);
+  delay(1000);
 }
